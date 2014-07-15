@@ -1,8 +1,14 @@
-FROM my/ubuntu14base
+FROM ubuntu:14.04
+
 MAINTAINER santoshsahoo
+
+RUN apt-get update -qq
+RUN apt-get dist-upgrade -yqq
 
 RUN apt-get install mysql-server -yqq
 RUN mkdir /var/run/mysqld/ -p
 
-ENTRYPOINT "/usr/sbin/mysqld"
-CMD ["/etc/mysql/my.cnf"]
+ADD my.cnf /etc/mysql/
+ADD start-dbserver /start-dbserver
+
+ENTRYPOINT "/start-dbserver"

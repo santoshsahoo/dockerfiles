@@ -1,4 +1,8 @@
-FROM my/ubuntu14base
+FROM ubuntu:14.04
+
 MAINTAINER santoshsahoo
+
+RUN apt-get update -qq
+RUN apt-get dist-upgrade -yqq
 
 RUN apt-get install redis-server -yqq

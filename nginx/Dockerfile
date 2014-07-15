@@ -1,5 +1,9 @@
-FROM my/ubuntu14base
+FROM ubuntu:14.04
+
 MAINTAINER santoshsahoo
+
+RUN apt-get update -qq
+RUN apt-get dist-upgrade -yqq
 
 RUN apt-get install nginx -yqq
 ADD ./server-configs-nginx /etc/nginx

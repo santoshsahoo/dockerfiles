@@ -1,7 +1,12 @@
-FROM my/ubuntu14base
+FROM ubuntu:14.04
+
 MAINTAINER santoshsahoo
 
+RUN apt-get update -qq
+RUN apt-get dist-upgrade -yqq
+
 RUN apt-get install apache2 -yqq
+RUN apt-get install php5 php5-fpm php5-curl php5-mysql php5-pgsql -yqq
 
 ENV APACHE_SERVERADMIN admin@localhost
 ENV APACHE_SERVERNAME localhost
@@ -16,9 +21,14 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 
 RUN mkdir /var/lock/apache2 -p
 
-VOLUME ["/var/log/"]
+ADD php5/php.ini /etc/php5/fpm/php.ini
+ADD php5/php-fpm.conf /etc/php5/fpm/php-fpm.conf
 
-ENTRYPOINT ["/usr/sbin/apache2"]
-CMD ["-D", "FOREGROUND"]
+ADD "startserver" "/startserver"
+
+VOLUME ["/var/log"]
+VOLUME ["/var/www"]
+
+ENTRYPOINT ["/startserver"]
 
 EXPOSE 80

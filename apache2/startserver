@@ -1,0 +1,6 @@
+#! /bin/sh
+
+/usr/sbin/php5-fpm -c /etc/php5/fpm
+sudo chmod 777 /var/run/php5-fpm.sock
+
+/usr/sbin/apache2 -D FOREGROUND
